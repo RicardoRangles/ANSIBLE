@@ -16,4 +16,8 @@
   - name: Delete website index.html
     win_file:
       dest: C:\Inetpub\wwwroot\index.html
-      state: absent 
+      state: absent
+
+  - name: Reinicio del servicio
+    win_reboot:
+        
