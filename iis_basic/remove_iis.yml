@@ -1,0 +1,19 @@
+---
+- name: install the iis web service
+  hosts: windows
+
+  tasks:
+  - name: uninstall iis    
+    win_service:
+      name: Web-Server
+      state: stopped
+
+  - name: delete iis service
+    win_feature:
+      name: W3Svc
+      state: absent
+
+  - name: Delete website index.html
+    win_file:
+      dest: C:\Inetpub\wwwroot\index.html
+      state: absent 
