@@ -19,5 +19,4 @@
       state: absent
 
   - name: Reinicio del servicio
-    win_reboot:
-        
+    ansible.windows.win_reboot:        
