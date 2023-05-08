@@ -1,0 +1,161 @@
+---
+- name: ejercicio 1 ansible
+  hosts: test
+  gather_facts: false  
+  vars: 
+    message: "HOLA MUNDO" 
+
+  tasks:
+
+##LITERAL 1
+
+  - name: creacio usuario student
+    ansible.builtin.user:
+      name: student
+      state: present
+	password: master20
+
+##LITERAL 2
+
+  - name: creacion directorio myplaybook
+    ansible.builtin.file:
+      path: /etc/myplaybook
+      state: directory
+	owner: student
+	group: student
+	mode: 0644
+
+##LITERAL 3 DUDA
+
+   - name: creacion archivo mytest
+     ansible.builtin.file:
+       path: /etc/myplaybook/mytest.yml
+       state: file
+
+   -ansible.builtin.debug:
+		   var: message.stdout_lines
+
+   
+##LITERAL 4 DUDA
+
+   - name: imprimir distribucion RedHat
+     ansible.builtin.setup:
+	 filter:
+       - '*distribution'
+     register: setup
+   	
+   -ansible.builtin.debug:
+	 msg: La distribucion de ansible es {{ setup.stdout_lines }}
+     when: ansible_distribution == "RedHat"
+
+##LITERAL 5
+
+   - name: verificacion de paquetes firewalld
+     ansible.builtin.yum:
+	 name: firewalld
+       state: latest
+
+   - name: verificacion de paquetes httpd
+     ansible.builtin.yum:
+	 name: httpd
+       state: latest	
+
+##LITERAL 6
+
+   - name: servicio activo y habilitado de paquetes firewalld 
+     ansible.builtin.service:
+	 name: firewalld
+       enabled: true
+       state: started
+
+   - name: servicio activo y habilitado de paquetes httpd
+     ansible.builtin.service:
+	 name: httpd
+       enabled: true
+       state: started
+
+##LITERAL 7
+
+   - name: permitir servicio httpd en el firewall
+     ansible.posix.firewalld:
+	 service: httpd
+	 port: tcp
+       permanent: true
+       state: enable
+
+##LITERAL 8 DUDA
+
+    - name: listar e imprimir actualizaciones disponibles
+      ansible.builtin.shell:
+	  rpm -qa --last | grep "$(date +%a\ %d\ %b\ %Y)" |cut -f 1 -d " "
+      register: result
+       args:
+	 warn: no
+    
+    -ansible.builtin.debug:
+	msg="{{ result.stdout_lines }}"
+
+##LITERAL 9 DUDA
+
+    - name: creacion archivo evidencias
+      ansible.builtin.file:
+        path: /tmp/evidencias.yml
+        state: file
+
+    - name: salida de comando uptime
+      ansible.builtin.command: 'uptime'
+	 args:
+	 chdir: /tmp/evidencias.yml
+       register: output1
+
+    -ansible.builtin.debug:
+		var: output1.stdout_lines
+
+     - name: salida de comando cat /etc/resolv.connf
+       ansible.builtin.command: 'cat /etc/resolv.conf'
+	  args:
+	  chdir: /tmp/evidencias.yml
+        register: output2
+
+	-ansible.builtin.debug:
+		var: output2.stdout_lines
+
+     - name: salida de comando df -h
+       ansible.builtin.command: 'df -h'
+	  args:
+	  chdir: /tmp/evidencias.yml
+        register: output3
+
+	-ansible.builtin.debug:
+		var: output3.stdout_lines
+
+ ##LITERAL 10
+
+	- name: Actualizar todos los paquetes del servidor excluyendo el paquete httpd
+ 	  ansible.builtin.yum:
+   	    name: "*"
+    	    state: latest
+          exclude: httpd*
+
+##LITERAL 11
+
+	- name: Reinicio del servidor
+        ansible.builtin.reboot:
+	    reboot_timeout. 3600
+
+##LITERAL 12 DUDA
+
+	 - name: imprimir la distribucion de ansible en /tmp/distribution
+         ansible.builtin.file:
+	    path: /tmp/distribution.yml
+          state: file
+
+       - name: imprimir distribucion RedHat
+         ansible.builtin.setup:
+	     filter:
+           - '*ansible_distribution'
+         register: setup
+   	
+       -ansible.builtin.debug:
+	     var: setup.stdout_lines		
+
