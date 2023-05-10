@@ -1,7 +1,7 @@
 ---
 - name: ejercicio 1 ansible
   hosts: test
-  gather_facts: false  
+  gather_facts: true 
   vars: 
     message: "HOLA MUNDO" 
 
@@ -13,7 +13,7 @@
     ansible.builtin.user:
       name: student
       state: present
-	password: master20
+      password: master20
 
 ##LITERAL 2
 
@@ -25,27 +25,18 @@
 	group: student
 	mode: 0644
 
-##LITERAL 3 DUDA
+##LITERAL 3
 
-   - name: creacion archivo mytest
-     ansible.builtin.file:
-       path: /etc/myplaybook/mytest.yml
-       state: file
-
-   -ansible.builtin.debug:
-		   var: message.stdout_lines
-
+   - name: Copy using inline content
+     ansible.builtin.copy:
+   	content: '# This file was moved to /etc/other.conf'
+	dest: /etc/mine.conf 
    
-##LITERAL 4 DUDA
+##LITERAL 4
 
-   - name: imprimir distribucion RedHat
-     ansible.builtin.setup:
-	 filter:
-       - '*distribution'
-     register: setup
-   	
+   - name: imprimir distribucion RedHat   	
    -ansible.builtin.debug:
-	 msg: La distribucion de ansible es {{ setup.stdout_lines }}
+	 msg: La distribucion de ansible es {{ ansible_distribution.stdout_lines }}
      when: ansible_distribution == "RedHat"
 
 ##LITERAL 5
@@ -95,39 +86,12 @@
     -ansible.builtin.debug:
 	msg="{{ result.stdout_lines }}"
 
-##LITERAL 9 DUDA
+##LITERAL 9
 
-    - name: creacion archivo evidencias
-      ansible.builtin.file:
-        path: /tmp/evidencias.yml
-        state: file
-
-    - name: salida de comando uptime
-      ansible.builtin.command: 'uptime'
+    - name: salida de comandos uptime
+      ansible.builtin.command: uptime > /tmp/evidencias; cat /etc/resolv.connf -->> /tmp/envidencias; df -h >> /tmp/evidencias 
 	 args:
-	 chdir: /tmp/evidencias.yml
-       register: output1
-
-    -ansible.builtin.debug:
-		var: output1.stdout_lines
-
-     - name: salida de comando cat /etc/resolv.connf
-       ansible.builtin.command: 'cat /etc/resolv.conf'
-	  args:
-	  chdir: /tmp/evidencias.yml
-        register: output2
-
-	-ansible.builtin.debug:
-		var: output2.stdout_lines
-
-     - name: salida de comando df -h
-       ansible.builtin.command: 'df -h'
-	  args:
-	  chdir: /tmp/evidencias.yml
-        register: output3
-
-	-ansible.builtin.debug:
-		var: output3.stdout_lines
+	 creates: /tmp/evidencias
 
  ##LITERAL 10
 
@@ -143,19 +107,9 @@
         ansible.builtin.reboot:
 	    reboot_timeout. 3600
 
-##LITERAL 12 DUDA
+##LITERAL 12
 
-	 - name: imprimir la distribucion de ansible en /tmp/distribution
-         ansible.builtin.file:
-	    path: /tmp/distribution.yml
-          state: file
-
-       - name: imprimir distribucion RedHat
-         ansible.builtin.setup:
-	     filter:
-           - '*ansible_distribution'
-         register: setup
-   	
-       -ansible.builtin.debug:
-	     var: setup.stdout_lines		
-
+	  - name: Copy using inline content
+     	    ansible.builtin.copy:
+   		content: {{ ansible_distribution }}
+		dest: /tmp/distribution  
