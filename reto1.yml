@@ -1,11 +1,7 @@
 ---
-- name: ejercicio 1 ansible
-  hosts: test
-  gather_facts: true 
-  vars: 
-    message: "HOLA MUNDO" 
-
-  tasks:
+  - name: ejercicio 1 ansible
+    hosts: test
+    tasks:
 
 ##LITERAL 1
 
@@ -21,95 +17,95 @@
     ansible.builtin.file:
       path: /etc/myplaybook
       state: directory
-	owner: student
-	group: student
-	mode: 0644
+      owner: student
+      group: student
+      mode: 0644
 
 ##LITERAL 3
 
-   - name: Copy using inline content
-     ansible.builtin.copy:
-   	content: '# This file was moved to /etc/other.conf'
-	dest: /etc/mine.conf 
+  - name: Creacion archivo mytest con contenido
+    ansible.builtin.copy:
+      content: 'Hola Mundo'
+      dest: /etc/myplaybook/mytest.txt 
    
 ##LITERAL 4
 
-   - name: imprimir distribucion RedHat   	
-   -ansible.builtin.debug:
-	 msg: La distribucion de ansible es {{ ansible_distribution.stdout_lines }}
-     when: ansible_distribution == "RedHat"
+  - name: imprimir distribucion RedHat   	
+    ansible.builtin.debug:
+      msg: La distribucion de ansible es {{ ansible_distribution.stdout_lines }}
+    when: ansible_distribution == "RedHat"
 
 ##LITERAL 5
 
-   - name: verificacion de paquetes firewalld
-     ansible.builtin.yum:
-	 name: firewalld
-       state: latest
+  - name: verificacion de paquetes firewalld
+    ansible.builtin.yum:
+      name: firewalld
+      state: latest
 
-   - name: verificacion de paquetes httpd
-     ansible.builtin.yum:
-	 name: httpd
-       state: latest	
+  - name: verificacion de paquetes httpd
+    ansible.builtin.yum:
+      name: httpd
+      state: latest	
 
 ##LITERAL 6
 
-   - name: servicio activo y habilitado de paquetes firewalld 
-     ansible.builtin.service:
-	 name: firewalld
-       enabled: true
-       state: started
+  - name: servicio activo y habilitado de paquetes firewalld 
+    ansible.builtin.service:
+      name: firewalld
+      enabled: true
+      state: started
 
-   - name: servicio activo y habilitado de paquetes httpd
-     ansible.builtin.service:
-	 name: httpd
-       enabled: true
-       state: started
+  - name: servicio activo y habilitado de paquetes httpd
+    ansible.builtin.service:
+      name: httpd
+      enabled: true
+      state: started
 
 ##LITERAL 7
 
-   - name: permitir servicio httpd en el firewall
-     ansible.posix.firewalld:
-	 service: httpd
-	 port: tcp
-       permanent: true
-       state: enable
+  - name: permitir servicio http en el firewall
+    ansible.posix.firewalld:
+      service: http
+      port: tcp
+      permanent: true
+      state: enable
 
 ##LITERAL 8 DUDA
 
-    - name: listar e imprimir actualizaciones disponibles
-      ansible.builtin.shell:
-	  rpm -qa --last | grep "$(date +%a\ %d\ %b\ %Y)" |cut -f 1 -d " "
-      register: result
-       args:
-	 warn: no
+  - name: listar e imprimir actualizaciones disponibles
+    ansible.builtin.shell:
+      rpm -qa --last | grep "$(date +%a\ %d\ %b\ %Y)" |cut -f 1 -d " "
+    register: result
+    args:
+      warn: no
     
-    -ansible.builtin.debug:
-	msg="{{ result.stdout_lines }}"
+  -ansible.builtin.debug:
+     msg="{{ result.stdout_lines }}"
 
 ##LITERAL 9
 
-    - name: salida de comandos uptime
-      ansible.builtin.command: uptime > /tmp/evidencias; cat /etc/resolv.connf -->> /tmp/envidencias; df -h >> /tmp/evidencias 
-	 args:
-	 creates: /tmp/evidencias
+  - name: salida de comandos al archivo evidencias
+    ansible.builtin.command: uptime > /tmp/evidencias.txt; cat /etc/resolv.connf >> /tmp/evidencias.txt; df -h >> /tmp/evidencias.txt 
+    args:
+      creates: /tmp/evidencias.txt
 
  ##LITERAL 10
 
-	- name: Actualizar todos los paquetes del servidor excluyendo el paquete httpd
- 	  ansible.builtin.yum:
-   	    name: "*"
-    	    state: latest
-          exclude: httpd*
+  - name: Actualizar todos los paquetes del servidor excluyendo el paquete httpd
+    ansible.builtin.yum:
+      name: "*"
+      state: latest
+      exclude: httpd*
 
 ##LITERAL 11
 
-	- name: Reinicio del servidor
-        ansible.builtin.reboot:
-	    reboot_timeout. 3600
+  - name: Reinicio del servidor
+    ansible.builtin.reboot:
+      reboot_timeout: 3600
 
 ##LITERAL 12
 
-	  - name: Copy using inline content
-     	    ansible.builtin.copy:
-   		content: {{ ansible_distribution }}
-		dest: /tmp/distribution  
+  - name: imprimir distribucion en archivo distribution
+    ansible.builtin.copy:
+      content: {{ ansible_distribution.stdout_lines }}
+      dest: /tmp/distribution.txt  
