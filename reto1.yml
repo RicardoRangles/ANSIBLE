@@ -53,7 +53,7 @@
       service: http
       port: tcp
       permanent: true
-      state: enable
+      state: enabled
 
   - name: listar e imprimir actualizaciones disponibles
     ansible.builtin.shell:
