@@ -5,7 +5,7 @@
 
 ##LITERAL 1
 
-  - name: creacio usuario student
+  - name: creacion usuario student
     ansible.builtin.user:
       name: student
       state: present
