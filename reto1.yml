@@ -3,13 +3,11 @@
     hosts: test
     tasks:
 
-##LITERAL 1
-
   - name: creacion usuario student
     ansible.builtin.user:
-       name: student
-       state: present
-       password: master20
+      name: student
+      state: present
+      password: master20
 
 ##LITERAL 2
 
