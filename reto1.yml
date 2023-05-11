@@ -79,5 +79,5 @@
 
   - name: imprimir distribucion en archivo distribution
     ansible.builtin.copy:
-      content: 'ansible_distribution.stdout_lines'
+      content: 'ansible_distribution'
       dest: /tmp/distribution.txt  
