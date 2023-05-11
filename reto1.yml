@@ -6,8 +6,7 @@
   - name: creacion usuario student
     ansible.builtin.user:
       name: student
-      state: present
-      password: master20
+      state: present      
       
   - name: creacion directorio myplaybook
     ansible.builtin.file:
