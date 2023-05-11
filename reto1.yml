@@ -23,7 +23,7 @@
 
   - name: imprimir distribucion RedHat   	
     ansible.builtin.debug:
-      msg: La distribucion de ansible es {{ ansible_distribution.stdout_lines }}
+      msg: La distribucion de ansible es {{ ansible_distribution }}
     when: ansible_distribution == "RedHat"
 
   - name: verificacion de paquetes firewalld
