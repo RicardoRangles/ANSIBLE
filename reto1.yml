@@ -50,8 +50,7 @@
 
   - name: permitir servicio http en el firewall
     ansible.posix.firewalld:
-      service: http
-      port: tcp
+      service: http     
       permanent: true
       state: enabled
 
