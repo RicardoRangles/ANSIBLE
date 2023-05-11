@@ -79,7 +79,7 @@
     args:
       warn: no
     
-  -ansible.builtin.debug:
+  - ansible.builtin.debug:
      msg="{{ result.stdout_lines }}"
 
 ##LITERAL 9
