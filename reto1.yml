@@ -1,16 +1,14 @@
 ---
-  - name: ejercicio 1 ansible
-    hosts: test
-    tasks:
+- name: ejercicio 1 ansible
+  hosts: test
+  tasks:
 
   - name: creacion usuario student
     ansible.builtin.user:
       name: student
       state: present
       password: master20
-
-##LITERAL 2
-
+      
   - name: creacion directorio myplaybook
     ansible.builtin.file:
       path: /etc/myplaybook
@@ -18,22 +16,16 @@
       owner: student
       group: student
       mode: 0644
-
-##LITERAL 3
-
+      
   - name: Creacion archivo mytest con contenido
     ansible.builtin.copy:
       content: 'Hola Mundo'
-      dest: /etc/myplaybook/mytest.txt 
-   
-##LITERAL 4
+      dest: /etc/myplaybook/mytest.txt  
 
   - name: imprimir distribucion RedHat   	
     ansible.builtin.debug:
       msg: La distribucion de ansible es {{ ansible_distribution.stdout_lines }}
     when: ansible_distribution == "RedHat"
-
-##LITERAL 5
 
   - name: verificacion de paquetes firewalld
     ansible.builtin.yum:
@@ -44,8 +36,6 @@
     ansible.builtin.yum:
       name: httpd
       state: latest	
-
-##LITERAL 6
 
   - name: servicio activo y habilitado de paquetes firewalld 
     ansible.builtin.service:
@@ -59,16 +49,12 @@
       enabled: true
       state: started
 
-##LITERAL 7
-
   - name: permitir servicio http en el firewall
     ansible.posix.firewalld:
       service: http
       port: tcp
       permanent: true
       state: enable
-
-##LITERAL 8 DUDA
 
   - name: listar e imprimir actualizaciones disponibles
     ansible.builtin.shell:
@@ -80,14 +66,10 @@
   - ansible.builtin.debug:
      msg="{{ result.stdout_lines }}"
 
-##LITERAL 9
-
   - name: salida de comandos al archivo evidencias
     ansible.builtin.command: uptime > /tmp/evidencias.txt; cat /etc/resolv.connf >> /tmp/evidencias.txt; df -h >> /tmp/evidencias.txt 
     args:
       creates: /tmp/evidencias.txt
-
- ##LITERAL 10
 
   - name: Actualizar todos los paquetes del servidor excluyendo el paquete httpd
     ansible.builtin.yum:
@@ -95,13 +77,9 @@
       state: latest
       exclude: httpd*
 
-##LITERAL 11
-
   - name: Reinicio del servidor
     ansible.builtin.reboot:
       reboot_timeout: 3600
-
-##LITERAL 12
 
   - name: imprimir distribucion en archivo distribution
     ansible.builtin.copy:
