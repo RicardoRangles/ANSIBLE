@@ -6,10 +6,10 @@
 ##LITERAL 1
 
   - name: creacion usuario student
-     ansible.builtin.user:
-         name: student
-         state: present
-         password: master20
+    ansible.builtin.user:
+       name: student
+       state: present
+       password: master20
 
 ##LITERAL 2
 
