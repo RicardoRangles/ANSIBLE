@@ -65,7 +65,7 @@
   
   - name: listar e imprimir actualizaciones disponibles 2
     ansible.builtin.yum:
-      list: update
+      list: updates
     register: lista 
      
   - ansible.builtin.debug: 
