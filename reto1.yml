@@ -60,17 +60,8 @@
     register: result 
       
   - ansible.builtin.debug:
-     msg="{{ result }}"
-     
-  
-  - name: listar e imprimir actualizaciones disponibles 2
-    ansible.builtin.yum:
-      list: updates
-    register: lista 
-     
-  - ansible.builtin.debug: 
-     msg="{{ lista.results | map(attribute='name') | list }}" 
-       
+     msg="{{ result }}" 
+
 
   - name: salida de comandos al archivo evidencias
     ansible.builtin.command: uptime > /tmp/evidencias.txt; cat /etc/resolv.connf >> /tmp/evidencias.txt; df -h >> /tmp/evidencias.txt 
