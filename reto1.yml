@@ -62,9 +62,9 @@
   - ansible.builtin.debug:
      msg="{{ result }}"
      
-     
+  
   - name: listar e imprimir actualizaciones disponibles 2
-    ansible.builtin.yam:
+    ansible.builtin.yum:
       list: update
     register: lista 
      
