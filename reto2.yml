@@ -1,0 +1,60 @@
+---
+- name: Correct the mistakes hosts:
+  gather_facts: yes
+  become: yes
+  tasks:
+   
+  - name: Create user student_new
+    ansible.builtin.user:
+      name: student_new
+      state: present
+      
+  - name: latest Apache version installed 
+    ansible.builtin.yum:
+      name: httpd
+      state: latest
+    
+  - name: Apache enabled and running service:
+    ansible.builtin.service:
+      name: httpd
+      enabled: true
+      state: started
+      
+  - name: create index.html
+    ansible.builtin.copy:
+      content: 'Hola Mundo'
+      dest: /tmp/files/index.html
+      
+  - name: copy index.html
+    ansible.builtin.copy:
+      src: index.html
+      dest: /var/www/html
+       
+  - name: print rhel version
+    ansible.builtin.debug:
+      msg: The distribution of this server is {{ ansible_distribution }} {{ ansible_distribution_version }}
+      when: ansible_distribution = "RedHat" and ansible_distribution_version = "8.7" 
+      
+   - name: create template.j2
+    ansible.builtin.copy:
+      content:
+      <!doctype html>
+      <html lang="en">
+      <head>
+       <meta charset="utf-8">
+       <title>{{ page_title }}</title>
+       <meta name="description" content="Created with Ansible">
+      </head>
+      <body>
+         <h1>{{ page_title }}</h1>
+         <p>{{ page_description }}</p>
+      </body>
+      </html>
+      dest: /tmp/template/index.html     
+      
+      
+      
+  - name: Create template with user input from survey template:
+    ansible.builtin.template:  
+        src: template.j2
+        dest: /tmp/template 
