@@ -37,5 +37,5 @@
       
   - name: Create template with user input from survey template:
     ansible.builtin.template:  
-        src: template.j2
-        dest: /tmp/template 
+      src: template.j2
+      dest: /tmp/template 
