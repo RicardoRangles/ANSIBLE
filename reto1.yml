@@ -69,7 +69,7 @@
     register: lista 
      
   - ansible.builtin.debug: 
-     msg= "{{ lista.results | map(attribute='name') | list }}" 
+     msg="{{ lista.results | map(attribute='name') | list }}" 
        
 
   - name: salida de comandos al archivo evidencias
