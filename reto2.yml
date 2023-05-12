@@ -33,7 +33,7 @@
   - name: print rhel version
     ansible.builtin.debug:
       msg: The distribution of this server is {{ ansible_distribution }} {{ ansible_distribution_version }}
-      when: ansible_distribution = "RedHat" and ansible_distribution_version = "8.7" 
+    when: ansible_distribution = "RedHat" and ansible_distribution_version = "8.7" 
       
   - name: Create template with user input from survey template:
     ansible.builtin.template:  
