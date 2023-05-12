@@ -58,9 +58,19 @@
     ansible.builtin.shell:
       rpm -qa --last | grep "$(date +%a\ %d\ %b\ %Y)" |cut -f 1 -d " "
     register: result 
-    
+      
   - ansible.builtin.debug:
      msg="{{ result }}"
+     
+     
+  - name: listar e imprimir actualizaciones disponibles 2
+    ansible.builtin.yam:
+      list: update
+    register: lista 
+     
+  - ansible.builtin.debug: 
+     msg= "{{ lista.results | map(attribute='name') | list }}" 
+       
 
   - name: salida de comandos al archivo evidencias
     ansible.builtin.command: uptime > /tmp/evidencias.txt; cat /etc/resolv.connf >> /tmp/evidencias.txt; df -h >> /tmp/evidencias.txt 
