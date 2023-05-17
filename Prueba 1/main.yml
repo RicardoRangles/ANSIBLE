@@ -1,7 +1,6 @@
----
-- name: reto 1 ansible
+name: reto 1 ansible
   hosts: student1-win1
-  become: yes
+  become: no
   gather_facts: no
   
   tasks:
@@ -17,8 +16,8 @@
       
   - name: Get version Windows
     ansible.windows.win_command:
-      cmd: echo $HOSTNAME
-    register: hostname
+      cmd: echo $HOSTNAME 
+      register: hostname
     
   - ansible.builtin.debug:
       msg: The version is {{ version }}
@@ -27,9 +26,9 @@
     ansible.windows.win_feature:
        name: "{{ item }}"
        state: present
-     loop:
-     - Firewall
-     - W3Svc
+    loop:
+    - Firewall
+    - W3Svc
      
   - name: Check started Firewall and W3Svc
     ansible.windows.win_service:
@@ -40,7 +39,7 @@
     - W3Svc
     
   - name: Enable W3Svc in Firewall
-     community.windows.win_firewall_rule:
+    community.windows.win_firewall_rule:
       name: W3Svc
       state: present
       enabled: yes
@@ -60,6 +59,16 @@
     ansible.windows.win_file:
       path: C:\tmp\reto1\reto1_content.txt
       state: touch
+            
+  - name: Create a file reto1_content
+    ansible.windows.win_file:
+      path: C:\tmp\reto1\reto1_content.txt
+      state: touch
+      
+      Imprima en el archivo reto1_content la versión de windows del servidor
+
+      
+      
      
     
   
