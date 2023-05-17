@@ -1,3 +1,4 @@
+---
 name: reto 1 ansible
   hosts: student1-win1
   become: no
