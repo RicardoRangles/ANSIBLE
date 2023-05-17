@@ -38,7 +38,16 @@
     loop:
     - Firewall
     - W3Svc
-      
+    
+  - name: Enable W3Svc in Firewall
+    win_firewall_rule:
+       name: W3Svc
+       localport: 80
+       action: allow
+       direction: in
+       protocol: tcp
+       state: present
+       enabled: yes  
        
   - name: Create directory /tmp/reto1
     ansible.windows.win_file:
@@ -55,15 +64,8 @@
       path: C:\tmp\reto1\reto1_content.txt
       state: touch
       
-   - name: Enable W3Svc in Firewall
-     win_firewall_rule:
-       name: W3Svc
-       localport: 80
-       action: allow
-       direction: in
-       protocol: tcp
-       state: present
-       enabled: yes  
+
+
 
       
       
