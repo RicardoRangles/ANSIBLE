@@ -1,6 +1,6 @@
 ---
 - name: reto 1 ansible
-  hosts: web
+  hosts: student1-win1
   become: yes
   gather_facts: no
   
