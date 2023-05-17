@@ -15,54 +15,7 @@
       msg: The hostname is {{ hostname }}
       
       
-  - name: Get version Windows
-    ansible.windows.win_command:
-      cmd: echo $HOSTNAME 
-      register: hostname
-    
-  - ansible.builtin.debug:
-      msg: The version is {{ version }}
-      
-  - name: Check install Firewall and W3Svc
-    ansible.windows.win_feature:
-       name: "{{ item }}"
-       state: present
-    loop:
-    - Firewall
-    - W3Svc
-     
-  - name: Check started Firewall and W3Svc
-    ansible.windows.win_service:
-      name: "{{ item }}"
-      state: started
-    loop:
-    - Firewall
-    - W3Svc
-    
-  - name: Enable W3Svc in Firewall
-    win_firewall_rule:
-       name: W3Svc
-       localport: 80
-       action: allow
-       direction: in
-       protocol: tcp
-       state: present
-       enabled: yes  
-       
-  - name: Create directory /tmp/reto1
-    ansible.windows.win_file:
-      path: C:\tmp\reto1
-      state: directory
-      
-  - name: Create a file reto1_content
-    ansible.windows.win_file:
-      path: C:\tmp\reto1\reto1_content.txt
-      state: touch
-            
-  - name: Create a file reto1_content
-    ansible.windows.win_file:
-      path: C:\tmp\reto1\reto1_content.txt
-      state: touch
+  
       
 
 
