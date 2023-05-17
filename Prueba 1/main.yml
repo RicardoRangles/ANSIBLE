@@ -12,7 +12,6 @@
   - ansible.builtin.debug:
       msg: The hostname is {{ hostname }}
 
-
 - name: Get version Windows
     ansible.windows.win_command:
       cmd: echo $VERSION 
@@ -60,4 +59,33 @@
   - name: Create a file reto1_content
     ansible.windows.win_file:
       path: C:\tmp\reto1\reto1_content.txt
-      state: touch
+      state: touch      
+      
+  - name: Change the hostname to sample-hostname
+    ansible.windows.win_hostname:
+      name: riki
+    register: res
+    
+  - name: Reboot
+    ansible.windows.win_reboot:
+    when: res.reboot_required
+    
+  - name: Update all installed packages
+    chocolatey.chocolatey.win_chocolatey:
+      name: all
+      state: latest      
+      
+  - name: Set the contents of a file
+    ansible.windows.win_copy:
+      content: $VERSION
+      dest: C:\tmp\reto1\reto1_content.txt
+      
+  - name: Backup file
+    ansible.windows.win_copy:
+      src: C:\tmp\reto1\reto1_content.txt
+      dest: C:\tmp\reto1\reto1_content.backup
+      
+  - name: Add a line to a file 
+    community.windows.win_lineinfile:
+      path: C:\tmp\reto1\reto1_content.backup
+      line: ESTA ES UNA PRUEBA
