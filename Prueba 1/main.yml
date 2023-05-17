@@ -8,7 +8,7 @@
 
   - name: Get hostname
     ansible.windows.win_command:
-      cmd: echo $HOSTNAME
+      cmd: sudo echo $HOSTNAME
     register: hostname
     
   - ansible.builtin.debug:
