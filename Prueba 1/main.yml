@@ -38,16 +38,14 @@
     loop:
     - Firewall
     - W3Svc
-    
-  - name: Enable W3Svc in Firewall
-    community.windows.win_firewall_rule:
-      name: W3Svc
-      state: present
-      enabled: yes
       
   - name: Enable W3Svc in Firewall
     community.windows.win_firewall_rule:
       name: W3Svc
+      localport: 80
+      action: allow
+      direction: in
+      protocol: tcp
       state: present
       enabled: yes
       
