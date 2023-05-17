@@ -7,7 +7,7 @@
   tasks:
 
   - name: Get hostname
-    ansible.windows.win.command: echo $HOSTNAME
+    ansible.windows.win.shell: echo $HOSTNAME
     register: hostname
     
   - ansible.builtin.debug:
