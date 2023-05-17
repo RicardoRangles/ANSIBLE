@@ -7,7 +7,7 @@
   tasks:
 
   - name: Get hostname
-    ansible.windows.win.command:
+    ansible.windows.win_command:
       cmd: echo $HOSTNAME
     register: hostname
     
