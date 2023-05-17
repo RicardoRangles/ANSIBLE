@@ -1,5 +1,5 @@
 ---
-name: reto 1 ansible
+- name: reto 1 ansible
   hosts: student1-win1
   become: no
   gather_facts: no
@@ -65,12 +65,3 @@ name: reto 1 ansible
     ansible.windows.win_file:
       path: C:\tmp\reto1\reto1_content.txt
       state: touch
-      
-      Imprima en el archivo reto1_content la versión de windows del servidor
-
-      
-      
-     
-    
-  
-      
