@@ -1,1 +1,5 @@
-
+---
+- name: reto 2 ansible
+  hosts: student1-win1
+  become: yes
+  gather_facts: yes
