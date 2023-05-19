@@ -5,7 +5,7 @@
   gather_facts: yes
   
   pre_tasks:
-    - name: "Install packages Postgresql"
+    - name: install packages Postgresql
       ansible.builtin.dnf:
         name= {{ item }}
         state= present
@@ -13,7 +13,7 @@
         - postgresql
         - postgresql-server
 
-    - name: "Install Python packages"
+    - name: install Python packages
       ansible.builtin.pip:
         name= {{ item }}
         state= present
@@ -21,17 +21,17 @@
         - psycopg2-binary
         
   tasks:
-    - name: "Verificar si el PostgreSQL esta inicializado"
+    - name: verificar si el PostgreSQL esta inicializado
       ansible.builtin.stat:
         path: "/var/lib/pgsql/data/pg_hba.conf"
       register: postgres_data
 
-    - name: "Initialize PostgreSQL"
+    - name: initialize PostgreSQL
       ansible.builtin.shell: "postgresql-setup initdb"
       when: not postgres_data.stat.exists
       
       
-    - name: "Start and enable services"
+    - name: start and enable services PostgreSQL
       ansible.builtin.service:
         name={{ item }}
         state= started
