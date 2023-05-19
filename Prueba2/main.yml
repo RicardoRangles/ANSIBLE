@@ -98,8 +98,8 @@
       ansible.builtin.debug:
         msg: La dirección IP es: {{ ansible_default_ipv4.address }} y el HOSTNAME es: {{ ansible_hostname }}
         
-       
-        
-        
-        
-        
+    - name: Add a line IPHOSTNAME
+      ansible.builtin.lineinfile:
+        path: /etc/hosts
+        line: {{ ansible_default_ipv4.address }} {{ ansible_hostname }}
+        create: no
