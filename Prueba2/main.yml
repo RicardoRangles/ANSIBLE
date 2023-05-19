@@ -1,6 +1,6 @@
 ---
 - name: reto 2 ansible
-  hosts: web
+  hosts: node1
   become: yes
   gather_facts: yes
   
@@ -41,23 +41,23 @@
     - name: create database
       postgresql_db:
         state: present
-        name: "{{ db_name }}"
+        name: db_riki
       become: yes
       become_user: postgres
       
     - name: create db user
       postgresql_user:
         state: present
-        name: "{{ db_user }}"
-        password: "{{ db_password }}"
+        name: riki
+        password: riki008
       become: yes
       become_user: postgres
       
     - name: grant db user access to db
       postgresql_privs:
         type: database
-        database: "{{ db_name }}"
-        roles: "{{ db_user }}"
+        database: db_riki
+        roles: riki
         grant_option: no
         privs: all
       become: yes
@@ -69,7 +69,7 @@
         contype: host
         databases: all
         method: md5
-        users: "{{ db_user }}"
+        users: riki
         create: true
       become: yes
       become_user: postgres
@@ -78,3 +78,28 @@
       ansible.builtin.service:
         name= postgresql
         state= restarted
+        
+    - name: back up the database
+      postgresql_db:
+        state: dump
+        name: db_riki
+        target: "/tmp/backup_db.dump"
+      become: yes
+      become_user: postgres      
+      
+    - name: restart server
+      ansible.builtin.reboot:
+      
+    - name: set a hostname
+      ansible.builtin.hostname:
+        name: RIKIHOST
+        
+    - name: print IP and Hostname server
+      ansible.builtin.debug:
+        msg: La dirección IP es: {{ ansible_default_ipv4.address }} y el HOSTNAME es: {{ ansible_hostname }}
+        
+       
+        
+        
+        
+        
